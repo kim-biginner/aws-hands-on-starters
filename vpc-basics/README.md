@@ -7,14 +7,16 @@
 ## Architecture
 ```mermaid
 flowchart LR
-  subgraph VPC[vpc-lab (10.0.0.0/16)]
-    A[(subnet-public 10.0.0.0/24)]
-    B[(subnet-private 10.0.1.0/24)]
+  subgraph "VPC: vpc-lab (10.0.0.0/16)"
+    A["subnet-public 10.0.0.0/24"]
+    B["subnet-private 10.0.1.0/24"]
   end
-  IGW[Internet Gateway]
-  S3[(S3 Service)]
-  A <-- 0.0.0.0/0 --> IGW
-  B <-- prefix-list --> S3
+
+  IGW["Internet Gateway"]
+  S3["S3 Service"]
+
+  A -->|0.0.0.0/0| IGW
+  B -->|prefix-list| S3
 ```
 - 퍼블릭 서브넷: 라우트 테이블에 `0.0.0.0/0 → IGW`가 있으면 퍼블릭
 - 프라이빗 서브넷: 인터넷 경로 없음. S3는 **Gateway VPC Endpoint**로 프라이빗 접근
